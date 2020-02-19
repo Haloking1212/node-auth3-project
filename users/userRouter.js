@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
-const users = require('./userModel')
+const Users = require('./userModel')
 const jwt = require('jsonwebtoken')
 
 function generateToken(user) {
@@ -14,17 +14,10 @@ function generateToken(user) {
     return jwt.sign(payload, process.env.JWT_SECRET || 'duh', options)
 }
 
-router.get('/', validateToken, (req,res) => {
+router.get('/users', validateToken, (req,res) => {
     console.log(req.username)
-    users.find()
-        .then(user => {
-            const filtered = user.filter(item => {
-                return item.department === req.username.department
-            
-            })
-            const users = filtered.map(item => {
-                return { id: item.id, username: item.username, department: item.department }
-            })
+    Users.find()
+        .then(users => {
             res.status(200).json(users)
         })
         .catch(err => {

@@ -5,6 +5,6 @@ const userRouter = require('./users/userRouter')
 const server = express()
 
 server.use(express.json())
-server.use('/api/users', userRouter)
+server.use('/api', userRouter)
 
 module.exports = server
